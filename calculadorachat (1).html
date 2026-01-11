@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+
+    <style>
+        *{
+            margin: 0; 
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .fundo{
+            background-image: linear-gradient(45deg, rgb(9, 15, 46), rgb(81, 18, 184));
+            height: 100vh;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        .calculadora{
+            position: absolute;
+            background-color: rgba(25, 15, 61, 0.8);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            padding: 15px;
+            width: max-content;
+            text-align: center; /* centraliza tudo */
+        }
+
+        .calculadora h1 {
+            text-align: center;
+            width: 100%;
+        }
+
+        .botao{
+            width: 50px;
+            height: 50px;
+            font-size: 25px;
+            cursor: pointer;
+            margin: 3px;
+            background-color: rgb(31, 31, 31);
+            border: none;
+            color: #fff;
+            border-radius: 6px;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            box-shadow: 0px 4px 0px #111;
+        }
+
+        .botao:active{
+            transform: translateY(3px);
+            box-shadow: 0px 1px 0px #111;
+            background-color: rgb(20, 20, 20);
+        }
+
+        #resultado{
+            background-color: white;
+            width: 207px;
+            height: 30px;
+            margin: 5px auto; /* centraliza */
+            font-size: 25px;
+            color: black;
+            text-align: right;
+            padding: 5px;
+
+            opacity: 0; /* some antes do boot */
+            transition: opacity 0.8s ease;
+        }
+
+        table {
+            margin-left: auto;
+            margin-right: auto; /* centraliza tabela */
+            opacity: 0; /* começa apagado pro efeito */
+            transition: opacity 0.8s ease;
+        }
+
+        /* ---------------------- */
+        /*     ANIMAÇÃO BOOT      */
+        /* ---------------------- */
+
+        /* Tela acendendo estilo TV antiga (CRT) */
+        .boot-animation {
+            animation: ligartela 0.8s ease forwards;
+        }
+
+        @keyframes ligartela {
+            0% {
+                clip-path: inset(49% 0 49% 0);
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+                opacity: 1;
+            }
+        }
+
+        /* título digitando */
+        .typing {
+            overflow: hidden;
+            border-right: 3px solid #fff;
+            white-space: nowrap;
+            width: 0;
+            animation: typing 1.5s steps(20) forwards, blink 0.7s infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 190px; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="fundo">
+        <div class="calculadora" id="calc">
+
+            <h1 id="titulo" class="typing">Calculadora</h1>
+
+            <p id="resultado"></p>
+
+            <table>
+                <tr>
+                    <td><button class="botao" onclick="clean()">C</button></td>
+                    <td><button class="botao" onclick="back()"><</button></td>
+                    <td><button class="botao" onclick="insert('/')">/</button></td>
+                    <td><button class="botao" onclick="insert('*')">x</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="insert('7')">7</button></td>
+                    <td><button class="botao" onclick="insert('8')">8</button></td>
+                    <td><button class="botao" onclick="insert('9')">9</button></td>
+                    <td><button class="botao" onclick="insert('-')">-</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="insert('4')">4</button></td>
+                    <td><button class="botao" onclick="insert('5')">5</button></td>
+                    <td><button class="botao" onclick="insert('6')">6</button></td>
+                    <td><button class="botao" onclick="insert('+')">+</button></td>
+                </tr>
+                <tr>
+                    <td><button class="botao" onclick="insert('1')">1</button></td>
+                    <td><button class="botao" onclick="insert('2')">2</button></td>
+                    <td><button class="botao" onclick="insert('3')">3</button></td>
+                    <td rowspan="2"><button class="botao" style="height: 106px;" onclick="calcular()">=</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><button class="botao" style="width: 106px;" onclick="insert('0')">0</button></td>
+                    <td><button class="botao" onclick="insert('.')">.</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function insert(num) {
+            let numero = document.getElementById('resultado').innerHTML;
+            document.getElementById('resultado').innerHTML = numero + num;
+        }
+
+        function clean() {
+            document.getElementById('resultado').innerHTML = "";
+        }
+
+        function back() {
+            let resultado = document.getElementById('resultado').innerHTML;
+            document.getElementById('resultado').innerHTML = resultado.substring(0, resultado.length - 1);
+        }
+
+        function calcular() {
+            let resultado = document.getElementById('resultado').innerHTML;
+            if (resultado) {
+                document.getElementById('resultado').innerHTML = eval(resultado);
+            } else {
+                document.getElementById('resultado').innerHTML = "Nada...";
+            }
+        }
+
+        /* ---------------------- */
+        /*   SCRIPT DO BOOT CRT   */
+        /* ---------------------- */
+
+        window.onload = function() {
+
+            const tela = document.querySelector('#resultado'); // visor recebe o efeito
+            const elementos = document.querySelectorAll('#resultado, table');
+
+            // inicia animação de ligar
+            tela.classList.add('boot-animation');
+
+            // aparece suavemente
+            setTimeout(() => {
+                elementos.forEach(el => el.style.opacity = "1");
+            }, 800);
+        };
+    </script>
+
+</body>
+</html>
