@@ -29,7 +29,7 @@
             border-radius: 15px;
             padding: 15px;
             width: max-content;
-            text-align: center; /* centraliza tudo */
+            text-align: center; 
         }
 
         .calculadora h1 {
@@ -61,28 +61,24 @@
             background-color: white;
             width: 207px;
             height: 30px;
-            margin: 5px auto; /* centraliza */
+            margin: 5px auto;
             font-size: 25px;
             color: black;
             text-align: right;
             padding: 5px;
 
-            opacity: 0; /* some antes do boot */
+            opacity: 0;
             transition: opacity 0.8s ease;
         }
 
         table {
             margin-left: auto;
-            margin-right: auto; /* centraliza tabela */
-            opacity: 0; /* começa apagado pro efeito */
+            margin-right: auto; 
+            opacity: 0; 
             transition: opacity 0.8s ease;
         }
 
-        /* ---------------------- */
-        /*     ANIMAÇÃO BOOT      */
-        /* ---------------------- */
-
-        /* Tela acendendo estilo TV antiga (CRT) */
+       
         .boot-animation {
             animation: ligartela 0.8s ease forwards;
         }
@@ -101,7 +97,7 @@
             }
         }
 
-        /* título digitando */
+       
         .typing {
             overflow: hidden;
             border-right: 3px solid #fff;
@@ -188,19 +184,16 @@
             }
         }
 
-        /* ---------------------- */
-        /*   SCRIPT DO BOOT CRT   */
-        /* ---------------------- */
 
         window.onload = function() {
 
-            const tela = document.querySelector('#resultado'); // visor recebe o efeito
+            const tela = document.querySelector('#resultado'); 
             const elementos = document.querySelectorAll('#resultado, table');
 
-            // inicia animação de ligar
+          
             tela.classList.add('boot-animation');
 
-            // aparece suavemente
+          
             setTimeout(() => {
                 elementos.forEach(el => el.style.opacity = "1");
             }, 800);
